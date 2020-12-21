@@ -43,7 +43,7 @@ class Connection(object): #pylint: disable=old-style-class,too-few-public-method
                 resp_data = resp_data + resp_json['data']
                 id = resp.json()['data'][-1].get('id') #pylint: disable=invalid-name
         resp_json['data'] = resp_data
-        return resp
+        return resp_json
 
     def _patch_data(self, url, data, files=None):
         """PATCH call to SimpleMDM API"""
