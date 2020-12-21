@@ -2,6 +2,8 @@
 
 ## v3.0.1
 
+### Issues
+
 - Closes #9
 
 ## Changed
