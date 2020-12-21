@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v3.0.1
+
+### Issues
+
+- Closes #9
+
+## Changed
+
+- Changed paginaition to work, now returns ibj not response 
+- good catch @bryanheinz
+
 ## v3.0.0
 
 - Closes #3
