@@ -30,8 +30,8 @@ class Connection(object): #pylint: disable=old-style-class,too-few-public-method
         has_more = True
         resp_data = []
         while has_more:
-            url = url + "?limit=20&starting_after=" + str(id)
-            resp = requests.get(url, data, auth=(self.api_key, ""), proxies=self.proxyDict)
+            filteredUrl = url + "?limit=20&starting_after=" + str(id)
+            resp = requests.get(filteredUrl, data, auth=(self.api_key, ""), proxies=self.proxyDict)
             resp_json = resp.json()
             if not resp.status_code in range(200, 207):
                 break

@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v3.0.2
+
+### Issues
+
+- Closes #11
+
+## Changed
+
+- Changed paginaition to work without compounding to a `414`
+
 ## v3.0.1
 
 ### Issues
@@ -8,7 +18,7 @@
 
 ## Changed
 
-- Changed paginaition to work, now returns ibj not response 
+- Changed paginaition to work, now returns obj not response
 - good catch @bryanheinz
 
 ## v3.0.0
