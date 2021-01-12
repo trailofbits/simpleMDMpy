@@ -24,19 +24,19 @@ class Connection(object): #pylint: disable=old-style-class,too-few-public-method
         """base api url"""
         return 'https://a.simplemdm.com/api/v1' + path
 
-    def _get_data(self, url, data=None):
+    def _get_data(self, url, data=None, id_override=None):
         """GET call to SimpleMDM API"""
-        id = 0 #pylint: disable=invalid-name,redefined-builtin
+        id = id_override #pylint: disable=invalid-name,redefined-builtin
         has_more = True
         resp_data = []
         while has_more:
-            url = url + "?limit=20&starting_after=" + str(id)
-            resp = requests.get(url, data, auth=(self.api_key, ""), proxies=self.proxyDict)
+            filteredUrl = url + "?limit=20&starting_after=" + str(id)
+            resp = requests.get(filteredUrl, data, auth=(self.api_key, ""), proxies=self.proxyDict)
             resp_json = resp.json()
             if not resp.status_code in range(200, 207):
                 break
             has_more = resp_json.get('has_more', None)
-            if has_more is None:
+            if has_more is None or resp_json['data'] == []:
                 resp_data = resp_json['data']
                 break
             else:

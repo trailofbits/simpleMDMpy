@@ -11,8 +11,8 @@ class Logs(SimpleMDMpy.SimpleMDM.Connection):
         SimpleMDMpy.SimpleMDM.Connection.__init__(self, api_key)
         self.url = self._url("/logs")
 
-    def get_logs(self):
-        """And I mean all the LOGS, before pagination"""
+    def get_logs(self, id_override=0):
+        """And I mean all the LOGS"""
         url = self.url
         data = {}
-        return self._get_data(url, data)
+        return self._get_data(url, data, id_override=id_override)

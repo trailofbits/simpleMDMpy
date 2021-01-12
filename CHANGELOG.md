@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## v3.0.2
+
+### Issues
+
+- Closes #11
+- Closes #12
+
+### Added
+
+- _get_data now has `id_override=None` so you can override `&starting_after=` as you wish
+- `id_override=0` implemented in Logs get_logs()
+
+### Changed
+
+- Changed paginaition to work without compounding to a `414`
+
 ## v3.0.1
 
 ### Issues
@@ -8,7 +24,7 @@
 
 ## Changed
 
-- Changed paginaition to work, now returns ibj not response 
+- Changed paginaition to work, now returns obj not response
 - good catch @bryanheinz
 
 ## v3.0.0
