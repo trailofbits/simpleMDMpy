@@ -5,8 +5,14 @@
 ### Issues
 
 - Closes #11
+- Closes #12
 
-## Changed
+### Added
+
+- _get_data now has `id_override=None` so you can override `&starting_after=` as you wish
+- `id_override=0` implemented in Logs get_logs()
+
+### Changed
 
 - Changed paginaition to work without compounding to a `414`
 
