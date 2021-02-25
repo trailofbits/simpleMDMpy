@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## v3.0.3
+
+- Closes #15
+- Closed #16
+- Closed #14
+
+### Added
+
+- support for setting custom attr on initial creation
+- support for updating a custom attribute
+
+### Changed
+
+- default branch is now `main`
+- remove `data` payload from Devices.delete_device
+
 ## v3.0.2
 
 ### Issues
