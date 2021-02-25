@@ -2,6 +2,8 @@
 
 ## v3.0.3
 
+### Issues
+
 - Closes #15
 - Closed #16
 - Closed #14
