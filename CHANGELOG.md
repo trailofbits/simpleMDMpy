@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v3.0.5
+
+### Issues
+
+- Closes #21
+
+### Added 
+
+- CODEOWNERS
+
 ## v3.0.4
 
 ### Issues
