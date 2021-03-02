@@ -1,8 +1,12 @@
 # SimpleMDMpy
 
-python lib for simpleMDM API
+A python library for simpleMDM API.
 
-https://simplemdm.com/docs/api
+[SimpleMDM API Documentation](https://simplemdm.com/docs/api)
+
+## Contributing 
+
+- [Contributing.md](./CONTRIBUTING.md)
 
 ## Install
 
