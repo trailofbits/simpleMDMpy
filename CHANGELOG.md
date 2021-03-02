@@ -10,10 +10,12 @@
 ### Added
 
 - LICENSE
+- `Contributing.md`
 
 ### Changed
 
 - Merged with @MagerValp / simpleMDMpy @ [508540928](https://github.com/MagerValp/simpleMDMpy/commit/50854094bee2ac5306eded7c5614d76f3eab4c25)
+- minor tweaks on the readme
 
 ## v3.0.3
 
