@@ -14,7 +14,7 @@ class ManagedAppConfigs(SimpleMDMpy.SimpleMDM.Connection):
 
     def get_managed_configs(self, app_id):
         """"Retrieve the managed configs for an app."""
-        url = self.url + "/" + app_id + "/managed_configs"
+        url = self.url + "/" + str(app_id) + "/managed_configs"
         data = {}
         return self._get_data(url, data)
 
@@ -23,12 +23,12 @@ class ManagedAppConfigs(SimpleMDMpy.SimpleMDM.Connection):
         for an app to all devices. This is not necessary
         when making managed config changes through the UI.
         This is necessary after making changes through the API."""
-        url = self.url + "/" + app_id + "/managed_configs/push"
+        url = self.url + "/" + str(app_id) + "/managed_configs/push"
         data = {}
         return self._post_data(url, data)
 
     def delete_config(self, app_id, managed_config_id):
         """Delete managed config from an app by ID."""
-        url = self.url + "/" + app_id + "/managed_configs/" + managed_config_id
+        url = self.url + "/" + str(app_id) + "/managed_configs/" + str(managed_config_id)
         data = {}
         return self._delete_data(url, data) #pylint: disable=too-many-function-args

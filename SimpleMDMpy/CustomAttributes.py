@@ -25,11 +25,11 @@ class CustomAttributes(SimpleMDMpy.SimpleMDM.Connection):
 
     def update_custom_attribute(self, custom_attribute_id, default_value):
         """create custom attribute"""
-        url = self.url + "/" + custom_attribute_id
+        url = self.url + "/" + str(custom_attribute_id)
         data = {'default_value': default_value}
         return self._put_data(url, data)
 
     def delete_custom_attribute(self, custom_attribute_id):
         """deletes custom attribute"""
-        url = self.url + "/" + custom_attribute_id
+        url = self.url + "/" + str(custom_attribute_id)
         return self._delete_data(url)

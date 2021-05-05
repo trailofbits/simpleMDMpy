@@ -15,7 +15,7 @@ class Apps(SimpleMDMpy.SimpleMDM.Connection):
         """list app, if none specified all return"""
         url = self.url
         if app_id != 'all':
-            url = url + "/" + app_id
+            url = url + "/" + str(app_id)
         return self._get_data(url)
 
     def create_app(self, name=None, app_store_id=None, bundle_id=None, binary=None):
@@ -34,7 +34,7 @@ class Apps(SimpleMDMpy.SimpleMDM.Connection):
 
     def update_app(self, app_id, binary=None, name=None):
         """update an apps info binary etc"""
-        url = self.url + "/" + app_id
+        url = self.url + "/" + str(app_id)
         data = {}
         files = {}
         if name:
@@ -45,6 +45,6 @@ class Apps(SimpleMDMpy.SimpleMDM.Connection):
 
     def delete_app(self, app_id):
         """delete an app"""
-        url = self.url + "/" + app_id
+        url = self.url + "/" + str(app_id)
         data = {}
         return self._delete_data(url, data) #pylint: disable=too-many-function-args

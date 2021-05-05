@@ -13,17 +13,17 @@ class InstalledApps(SimpleMDMpy.SimpleMDM.Connection):
 
     def get_app(self, installed_app_id):
         """retrieve an installed app"""
-        url = self.url + "/" + installed_app_id
+        url = self.url + "/" + str(installed_app_id)
         return self._get_data(url)
 
     def update(self, installed_app_id):
         """This submits a request to the device to update the specified app to
         the latest version. The app must be managed for this request to succeed."""
-        url = self.url + "/" + installed_app_id
+        url = self.url + "/" + str(installed_app_id)
         return self._get_data(url)
 
     def delete_app(self, installed_app_id):
         """This submits a request to the device to uninstall the specified app.
         The app must be managed for this request to succeed."""
-        url = self.url + "/" + installed_app_id
+        url = self.url + "/" + str(installed_app_id)
         return self._delete_data(url)
