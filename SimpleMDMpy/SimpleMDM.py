@@ -37,7 +37,10 @@ class Connection(object): #pylint: disable=old-style-class,too-few-public-method
                 raise ApiError(f"API returned status code {resp.status_code}")
             resp_json = resp.json()
             data = resp_json['data']
-            resp_data.extend(data)
+            if isinstance(data, list):
+                resp_data.extend(data)
+            else:
+                resp_data.append(data)
             has_more = resp_json.get('has_more', None)
             if has_more:
                 start_id = data[-1].get('id')
