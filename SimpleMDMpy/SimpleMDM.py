@@ -24,12 +24,11 @@ class Connection(object): #pylint: disable=old-style-class,too-few-public-method
         """base api url"""
         return 'https://a.simplemdm.com/api/v1' + path
 
-    def _get_data(self, url, params=None):
+    def _get_data(self, base_url, params=None):
         """GET call to SimpleMDM API"""
         start_id = 0
         has_more = True
-        resp_data = []
-        base_url = url
+        list_data = []
         while has_more:
             url = base_url + "?limit=100&starting_after=" + str(start_id)
             resp = requests.get(url, params, auth=(self.api_key, ""), proxies=self.proxyDict)
@@ -37,14 +36,15 @@ class Connection(object): #pylint: disable=old-style-class,too-few-public-method
                 raise ApiError(f"API returned status code {resp.status_code}")
             resp_json = resp.json()
             data = resp_json['data']
-            if isinstance(data, list):
-                resp_data.extend(data)
-            else:
-                resp_data.append(data)
-            has_more = resp_json.get('has_more', None)
+            # If the response isn't a list, return the single item.
+            if not isinstance(data, list):
+                return data
+            # If it's a list we save it and see if there is more data coming.
+            list_data.extend(data)
+            has_more = resp_json.get('has_more', False)
             if has_more:
                 start_id = data[-1].get('id')
-        return resp_data
+        return list_data
 
     def _patch_data(self, url, data, files=None):
         """PATCH call to SimpleMDM API"""
