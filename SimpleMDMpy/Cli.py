@@ -25,6 +25,9 @@ class CliCommand(ABC):
                             f"{COMMANDS[cls.name].__class__.__name__}")
         COMMANDS[cls.name] = cls()
 
+    def __init_arguments__(self, parser: argparse.ArgumentParser):
+        pass
+
     @classmethod
     def prompt_for_api_key(cls) -> str:
         cls._api_key = keyring.get_password(KEYRING_NAME, "SimpleMDMKey")
@@ -51,7 +54,7 @@ class CliCommand(ABC):
         return cls.prompt_for_api_key()
 
     @abstractmethod
-    def run(self):
+    def run(self, args: argparse.Namespace):
         raise NotImplementedError()
 
 
@@ -72,6 +75,7 @@ def main():
     commands = parser.add_subparsers(help="SimpleMDM subcommands")
     for command in COMMANDS.values():
         p = commands.add_parser(command.name, help=command.help)
+        command.__init_arguments__(p)
         p.set_defaults(func=command.run)
 
     args = parser.parse_args()
@@ -79,22 +83,25 @@ def main():
     if hasattr(args, "key") and args.key:
         CliCommand._api_key = args.key
 
-    if args.version:
-        from . import VERSION
-        print(f"simplemdm {VERSION}")
-        exit(0)
-    elif args.prompt_for_key:
-        CliCommand.prompt_for_api_key()
+    try:
+        if args.version:
+            from . import VERSION
+            print(f"simplemdm {VERSION}")
+            exit(0)
+        elif args.prompt_for_key:
+            CliCommand.prompt_for_api_key()
 
-    if hasattr(args, "func"):
-        args.func()
+        if hasattr(args, "func"):
+            args.func(args)
+    except KeyboardInterrupt:
+        exit(1)
 
 
 class ListDevices(CliCommand):
     name = "list"
     help = "list managed devices"
 
-    def run(self):
+    def run(self, args: argparse.Namespace):
         devices = Devices(self.api_key())
 
         for device in devices.get_device():
@@ -117,6 +124,56 @@ class ListDevices(CliCommand):
                   "\"%s\"" % attributes['available_device_capacity'],
                   "\"%s\"" % attributes['is_cloud_backup_enabled'],
                   sep=",")
+
+
+class Software(CliCommand):
+    name = "software"
+    help = "query installed software"
+
+    def __init_arguments__(self, parser: argparse.ArgumentParser):
+        parser.add_argument("name", help="name of the software to query", type=str)
+
+    def run(self, args: argparse.Namespace):
+        devices = Devices(self.api_key())
+
+        for device in devices.get_device():
+            # get the username custom attribute
+            c = devices.get_custom_attribute(device['id'], '')  # returns a list of dicts
+            email = ''
+            for attribute in c:
+                if attribute['id'] == 'username':
+                    email = attribute['attributes']['value']
+
+            # get the device id
+            deviceid = device['id']
+
+            # get all the apps installed on the device
+            apps = devices.list_installed_apps(device['id'])
+            # logging.debug("Searching for", args.name, "in", len(apps), "on", email, deviceid)
+
+            # list of software that matches the search term
+            software = []
+
+            # review every app in the installed apps list
+            for app in apps:
+                name = app['attributes']['name']
+                # logging.debug("Reviewing the", name, "app for", args.name)
+
+                # compare the app name for the search time, case insensitive
+                if str.lower(args.name) in str.lower(app['attributes']['name']):
+                    # logging.debug("MATCH:", app['attributes']['name'], app['attributes']['short_version'])
+                    if app['attributes']['short_version'] is not None:
+                        software.append({app['attributes']['name']: app['attributes']['short_version']})
+
+                        # append the discovered software to the table
+            for i in software:
+                for k in i:
+                    print("\"%s\"" % email,
+                          "\"%s\"" % deviceid,
+                          "\"%s\"" % k,
+                          "\"%s\"" % i[k],
+                          sep=","
+                          )
 
 
 if __name__ == "__main__":
