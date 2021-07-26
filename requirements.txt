@@ -1,1 +1,2 @@
+keyring>=21.8.0
 requests
